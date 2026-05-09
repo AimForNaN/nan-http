@@ -9,7 +9,7 @@ trait ServerRequestTrait {
 
 	private array $__attributes = [];
 	private array $__cookie_params = [];
-	private array|object|null $__parsed_body = null;
+	private array $__parsed_body = [];
 	private array $__query_params = [];
 	private array $__server_params = [];
 	private array $__uploaded_files = [];
@@ -68,7 +68,7 @@ trait ServerRequestTrait {
 		$this->__assertParsedBody($data);
 
 		$new = clone $this;
-		$new->__parsed_body = $data;
+		$new->__parsed_body = (array)$data;
 
 		return $new;
 	}

@@ -67,4 +67,12 @@ trait RequestTrait {
 			throw new \InvalidArgumentException('HTTP request target cannot be empty!');
 		}
 	}
+
+	private function __assertUri(PsrUriInterface|string $uri): void {
+		$uri = (string)$uri;
+
+		if (empty($uri)) {
+			throw new \InvalidArgumentException('URI cannot be empty!');
+		}
+	}
 }
