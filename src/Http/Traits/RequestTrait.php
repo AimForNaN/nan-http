@@ -15,7 +15,7 @@ trait RequestTrait {
 	private PsrUriInterface $__uri;
 
 	public function getMethod(): string {
-		return $this->__method;
+		return \strtoupper($this->__method);
 	}
 
 	public function getRequestTarget(): string {
