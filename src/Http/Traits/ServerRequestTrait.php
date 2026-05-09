@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
 trait ServerRequestTrait {
 	use RequestTrait;
+	use AssertServerRequestTrait;
 
 	private array $__attributes = [];
 	private array $__cookie_params = [];
@@ -87,11 +88,5 @@ trait ServerRequestTrait {
 		$new->__uploaded_files = $uploaded_files;
 
 		return $new;
-	}
-
-	private function __assertParsedBody(array|object|null $value): void {
-	}
-
-	private function __assertUploadedFiles(array $value): void {
 	}
 }
