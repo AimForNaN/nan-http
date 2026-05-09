@@ -1,0 +1,19 @@
+{
+    "name": "aimfornan/nan-http",
+    "description": "\\NaN\\Http",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "NaN\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.4",
+        "guzzlehttp/psr7": "^2.6",
+        "nette/schema": "^1.3",
+        "laminas/laminas-diactoros": "^3.8"
+    },
+    "provide": {
+        "psr/http-message-implementation": "^1.0"
+    }
+}
