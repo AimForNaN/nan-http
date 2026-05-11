@@ -3,7 +3,7 @@
 namespace NaN\Http\Traits;
 
 trait AssertRequestTrait {
-	private function __assertHttpMethod(string $method): void {
+	private function __assertMethod(string $method): void {
 		if (empty($method)) {
 			throw new \InvalidArgumentException('HTTP method cannot be empty!');
 		}
