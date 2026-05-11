@@ -16,6 +16,6 @@ class OutputStream implements PsrStreamInterface {
 	}
 
 	public function isWritable(): bool {
-		return true;
+		return \is_resource($this->__stream);
 	}
 }

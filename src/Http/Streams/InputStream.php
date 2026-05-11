@@ -12,7 +12,7 @@ class InputStream implements PsrStreamInterface{
 	}
 
 	public function isReadable(): bool {
-		return true;
+		return \is_resource($this->__stream);
 	}
 
 	public function isWritable(): bool {
