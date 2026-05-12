@@ -19,7 +19,7 @@
 		"psr/http-message-implementation": "^1.0"
     },
     "require-dev": {
-		"aimfornan/nan-tests": "^0.0.1",
+		"aimfornan/nan-tests": "^0.0.2",
         "guzzlehttp/guzzle": "^7.10"
     },
     "config": {
