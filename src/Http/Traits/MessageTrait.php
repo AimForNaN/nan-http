@@ -2,6 +2,7 @@
 
 namespace NaN\Http\Traits;
 
+use NaN\Http\Message;
 use Psr\Http\Message\{
 	MessageInterface as PsrMessageInterface,
 	StreamInterface as PsrStreamInterface,
@@ -28,7 +29,7 @@ trait MessageTrait {
 			return '';
 		}
 
-		return \implode(',', $this->getHeader($name));
+		return Message::mergeHeaderValue($this->getHeader($name));
 	}
 
 	public function getHeaders(): array {
@@ -88,6 +89,7 @@ trait MessageTrait {
 	public function withProtocolVersion(string $version): PsrMessageInterface {
 		$new = clone $this;
 		$new->__protocol_version = $version;
+
 		return $new;
 	}
 }

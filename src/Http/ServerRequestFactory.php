@@ -3,7 +3,6 @@
 namespace NaN\Http;
 
 use Laminas\Diactoros\Uri;
-use NaN\Http\Streams\InputStream;
 use Psr\Http\Message\{
 	ServerRequestFactoryInterface as PsrServerRequestFactoryInterface,
 	ServerRequestInterface as PsrServerRequestInterface,
@@ -43,7 +42,6 @@ class ServerRequestFactory implements PsrServerRequestFactoryInterface {
 		return new ServerRequest(
 			$method,
 			new Uri((string)$uri),
-			new InputStream(),
 			$server_params,
 		);
 	}

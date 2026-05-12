@@ -2,7 +2,6 @@
 
 namespace NaN\Http;
 
-use NaN\Http\Streams\InputStream;
 use Psr\Http\Message\{
 	RequestInterface as PsrRequestInterface,
 	StreamInterface as PsrStreamInterface,
@@ -12,7 +11,6 @@ use Psr\Http\Message\{
 class Request implements PsrRequestInterface {
 	use Traits\MessageTrait;
 	use Traits\RequestTrait;
-	use Traits\AssertRequestTrait;
 
 	public function __construct(
 		string $method,
@@ -20,6 +18,8 @@ class Request implements PsrRequestInterface {
 		PsrStreamInterface $body,
 		array $headers = [],
 	) {
+		$headers = Message::prepareHeaders($headers);
+
 		$this->__assertMethod($method);
 		$this->__assertUri($uri);
 		$this->__assertHeaders($headers);
@@ -27,16 +27,25 @@ class Request implements PsrRequestInterface {
 		$this->__method = $method;
 		$this->__uri = $uri;
 		$this->__body = $body;
-		$this->__headers = self::prepareHeaders($headers);
+		$this->__headers = $headers;
 	}
 
-	public static function prepareHeaders(array $headers) : array {
-		$headers = \array_change_key_case($headers, \CASE_UPPER);
+	public static function parseCookiesFromString(string $cookie_str): array {
+		$cookies = [];
+		$split = \str_contains($cookie_str, '; ') ?
+			\explode('; ', $cookie_str) :
+			[$cookie_str]
+		;
 
-		foreach ($headers as $key => $value) {
-			$headers[$key] = (array)$value;
+		foreach ($split as $part) {
+			$parts = \explode('=', $part, 2);
+			[$name, $value] = $parts + [null, null];
+
+			if ($name && $value) {
+				$cookies[$name] = $value;
+			}
 		}
 
-		return $headers;
+		return $cookies;
 	}
 }

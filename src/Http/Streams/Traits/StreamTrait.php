@@ -8,6 +8,14 @@ trait StreamTrait {
 	private $__stream = null;
 
 	public function __toString(): string {
+		if (!$this->isReadable()) {
+			return '';
+		}
+
+		if (!$this->isSeekable()) {
+			return '';
+		}
+
 		try {
 			$this->rewind();
 			return $this->getContents();
@@ -24,8 +32,11 @@ trait StreamTrait {
 		$this->detach();
 	}
 
-	public function detach(): void {
+	public function detach() {
+		$stream = $this->__stream;
 		$this->__stream = null;
+
+		return $stream;
 	}
 
 	public function eof(): bool {
@@ -34,6 +45,10 @@ trait StreamTrait {
 
 	public function getContents(): string {
 		$this->__assertResource($this->__stream);
+
+		if (!$this->isReadable()) {
+			return '';
+		}
 
 		return \stream_get_contents($this->__stream) ?: '';
 	}
@@ -64,7 +79,11 @@ trait StreamTrait {
 
 	public function isReadable(): bool {
 		return match ($this->getMetadata('mode')) {
-			'c+', 'r', 'r+', 'w+' => true,
+			'a+', 'ab+',
+			'c+', 'cb+',
+			'r', 'r+', 'rb+',
+			'w+', 'wb+',
+			'x+', 'xb+' => true,
 			default => false,
 		};
 	}

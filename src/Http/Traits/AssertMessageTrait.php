@@ -24,9 +24,15 @@ trait AssertMessageTrait {
 		}
 	}
 
-	private function __assertHeaderValue(array|string $value): void {
+	private function __assertHeaderValue(array $value): void {
 		if (empty($value)) {
 			throw new \InvalidArgumentException('HTTP header value cannot be empty!');
+		}
+	}
+
+	private function __assertProtocolVersion(string $protocol_version): void {
+		if (!\is_float($protocol_version)) {
+			throw new \InvalidArgumentException('HTTP protocol version must contain a major and minor version!');
 		}
 	}
 }
