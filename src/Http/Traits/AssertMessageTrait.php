@@ -31,7 +31,7 @@ trait AssertMessageTrait {
 	}
 
 	private function __assertProtocolVersion(string $protocol_version): void {
-		if (!\is_float($protocol_version)) {
+		if (!\is_float((float)$protocol_version)) {
 			throw new \InvalidArgumentException('HTTP protocol version must contain a major and minor version!');
 		}
 	}
