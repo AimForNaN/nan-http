@@ -8,7 +8,6 @@ use Psr\Http\Message\{
 };
 
 trait RequestTrait {
-	use MessageTrait;
 	use AssertRequestTrait;
 
 	private string $__method;

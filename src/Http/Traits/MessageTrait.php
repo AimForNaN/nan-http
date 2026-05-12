@@ -19,7 +19,7 @@ trait MessageTrait {
 	}
 
 	public function getHeader(string $name): array {
-		$name = \strtolower($name);
+		$name = \strtoupper($name);
 		return $this->__headers[$name] ?? [];
 	}
 
@@ -40,14 +40,14 @@ trait MessageTrait {
 	}
 
 	public function hasHeader(string $name): bool {
-		return \array_key_exists(\strtolower($name), $this->__headers);
+		return \array_key_exists(\strtoupper($name), $this->__headers);
 	}
 
 	public function withAddedHeader(string $name, $value): PsrMessageInterface {
-		$this->__assertHttpHeaderName($name);
-		$this->__assertHttpHeaderValue($value);
+		$this->__assertHeaderName($name);
+		$this->__assertHeaderValue($value);
 
-		$name = \strtolower($name);
+		$name = \strtoupper($name);
 		$value = (array)$value;
 		$others = $this->__headers[$name] ?? [];
 		$new = clone $this;
@@ -65,10 +65,10 @@ trait MessageTrait {
 	}
 
 	public function withHeader(string $name, $value): PsrMessageInterface {
-		$this->__assertHttpHeaderName($name);
-		$this->__assertHttpHeaderValue($value);
+		$this->__assertHeaderName($name);
+		$this->__assertHeaderValue($value);
 
-		$name = \strtolower($name);
+		$name = \strtoupper($name);
 		$new = clone $this;
 
 		$new->__headers[$name] = (array)$value;
@@ -77,7 +77,7 @@ trait MessageTrait {
 	}
 
 	public function withoutHeader(string $name): PsrMessageInterface {
-		$name = \strtolower($name);
+		$name = \strtoupper($name);
 		$new = clone $this;
 
 		unset($new->__headers[$name]);

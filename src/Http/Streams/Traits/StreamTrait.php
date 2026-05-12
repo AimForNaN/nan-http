@@ -97,6 +97,10 @@ trait StreamTrait {
 	public function seek(int $offset, int $whence = \SEEK_SET): void {
 		$this->__assertResource($this->__stream);
 
+		if (!$this->isSeekable()) {
+			throw new \RuntimeException('Stream is not seekable!');
+		}
+
 		\fseek($this->__stream, $offset, $whence);
 	}
 

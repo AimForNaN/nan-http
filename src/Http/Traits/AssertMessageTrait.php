@@ -2,12 +2,7 @@
 
 namespace NaN\Http\Traits;
 
-use Psr\Http\Message\StreamInterface as PsrStreamInterface;
-
 trait AssertMessageTrait {
-	private function __assertBody(?PsrStreamInterface $body): void {
-	}
-
 	private function __assertHeaderName(string $name): void {
 		if (empty($name)) {
 			throw new \InvalidArgumentException('HTTP header name cannot be empty!');

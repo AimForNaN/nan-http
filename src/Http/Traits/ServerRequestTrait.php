@@ -5,7 +5,6 @@ namespace NaN\Http\Traits;
 use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
 trait ServerRequestTrait {
-	use RequestTrait;
 	use AssertServerRequestTrait;
 
 	private array $__attributes = [];
