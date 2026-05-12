@@ -3,6 +3,7 @@
 namespace NaN\Http;
 
 use Amp\Http\HttpStatus;
+use NaN\Http\Streams\TempStream;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class Response implements PsrResponseInterface {
@@ -26,7 +27,7 @@ class Response implements PsrResponseInterface {
 
 		$this->__status_code = $status_code;
 		$this->__reason_phrase = $reason_phrase;
-		$this->__body = new BufferStream();
+		$this->__body = new TempStream();
 		$this->__headers = $headers;
 		$this->__protocol_version = $protocol_version;
 	}
