@@ -8,6 +8,6 @@ class TempStream implements PsrStreamInterface {
 	use Traits\StreamTrait;
 
 	public function __construct() {
-		$this->__stream = fopen('php://temp', 'r+');
+		$this->__stream = \fopen('php://temp', 'r+');
 	}
 }

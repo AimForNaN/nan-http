@@ -79,11 +79,11 @@ trait StreamTrait {
 
 	public function isReadable(): bool {
 		return match ($this->getMetadata('mode')) {
-			'a+', 'ab+',
-			'c+', 'cb+',
-			'r', 'r+', 'rb+',
-			'w+', 'wb+',
-			'x+', 'xb+' => true,
+			'a+', 'a+b',
+			'c+', 'c+b',
+			'r', 'rb', 'r+', 'r+b',
+			'w+', 'w+b',
+			'x+', 'x+b' => true,
 			default => false,
 		};
 	}
@@ -94,7 +94,7 @@ trait StreamTrait {
 
 	public function isWritable(): bool {
 		return match ($this->getMetadata('mode')) {
-			'r' => false,
+			'r', 'rb' => false,
 			default => true,
 		};
 	}

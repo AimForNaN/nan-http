@@ -10,12 +10,4 @@ class InputStream implements PsrStreamInterface{
 	public function __construct() {
 		$this->__stream = \fopen('php://input', 'r');
 	}
-
-	public function isReadable(): bool {
-		return \is_resource($this->__stream);
-	}
-
-	public function isWritable(): bool {
-		return false;
-	}
 }
