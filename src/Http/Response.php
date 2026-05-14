@@ -33,7 +33,7 @@ class Response implements PsrResponseInterface {
 	}
 
 	public static function getReasonPhraseForStatusCode(int $status_code): string {
-		return \Amp\Http\HttpStatus::getReason($status_code);
+		return HttpStatus::getReason($status_code);
 	}
 
 	public static function json(array|object $data): PsrResponseInterface {
