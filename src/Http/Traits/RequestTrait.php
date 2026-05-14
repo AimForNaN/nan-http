@@ -27,7 +27,7 @@ trait RequestTrait {
 	}
 
 	public function withMethod(string $method): PsrRequestInterface {
-		$this->__assertHttpMethod($method);
+		$this->__assertMethod($method);
 
 		$new = clone $this;
 		$new->__method = \strtoupper($method);
