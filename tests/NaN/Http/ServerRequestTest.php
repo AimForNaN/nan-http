@@ -15,4 +15,16 @@ describe('ServerRequest', function() {
 			->and($req->getUri()->getPath())->toBe('/')
 		;
 	});
+
+	test('withAttribute()', function() {
+		$req = new ServerRequestFactory()->createServerRequest('POST', '/test')
+			->withAttribute('Test', 'test')
+		;
+
+		expect($req)->toBeInstanceOf(ServerRequestInterface::class)
+			->and($req->getMethod())->toBe('POST')
+			->and($req->getUri()->getPath())->toBe('/test')
+			->and($req->getAttribute('Test'))->toBe('test')
+		;
+	});
 });
