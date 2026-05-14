@@ -30,7 +30,7 @@ trait RequestTrait {
 		$this->__assertMethod($method);
 
 		$new = clone $this;
-		$new->__method = \strtoupper($method);
+		$new->__method = $method;
 
 		return $new;
 	}
