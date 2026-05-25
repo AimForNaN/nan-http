@@ -7,6 +7,10 @@ trait StreamTrait {
 
 	private $__stream = null;
 
+	public function __destruct() {
+		$this->close();
+	}
+
 	public function __toString(): string {
 		if (!$this->isReadable()) {
 			return '';
