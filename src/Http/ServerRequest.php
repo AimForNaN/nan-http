@@ -66,19 +66,28 @@ class ServerRequest extends Request implements PsrServerRequestInterface {
 		return $headers;
 	}
 
+	public function getService(string $service) {
+		return self::getServiceFromRequest($service, $this);
+	}
+
 	public static function getServiceFromRequest(
 		string $service,
 		PsrServerRequestInterface $request,
 	): mixed {
 		$services = $request->getAttribute(PsrContainerInterface::class);
 
-		if ($services instanceof PsrContainerInterface &&
+		if (
+			$services instanceof PsrContainerInterface &&
 			$services->has($service)
 		) {
 			return $services->get($service);
 		}
 
 		return null;
+	}
+
+	public function hasService(string $service): bool {
+		return self::requestHasService($service, $this);
 	}
 
 	/**
@@ -105,5 +114,17 @@ class ServerRequest extends Request implements PsrServerRequestInterface {
 		}
 
 		return [];
+	}
+
+	public static function requestHasService(
+		string $service,
+		PsrServerRequestInterface $request,
+	): bool {
+		$services = $request->getAttribute(PsrContainerInterface::class);
+
+		return
+			$services instanceof PsrContainerInterface &&
+			$services->has($service)
+		;
 	}
 }
