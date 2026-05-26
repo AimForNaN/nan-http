@@ -3,6 +3,11 @@
 namespace NaN\Http;
 
 use NaN\Http\Streams\InputStream;
+use Psr\Container\{
+	ContainerExceptionInterface,
+	ContainerInterface as PsrContainerInterface,
+	NotFoundExceptionInterface,
+};
 use Psr\Http\Message\{
 	ServerRequestInterface as PsrServerRequestInterface,
 	StreamInterface as PsrStreamInterface,
@@ -59,6 +64,21 @@ class ServerRequest extends Request implements PsrServerRequestInterface {
 		}
 
 		return $headers;
+	}
+
+	public static function getServiceFromRequest(
+		string $service,
+		PsrServerRequestInterface $request,
+	): mixed {
+		$services = $request->getAttribute(PsrContainerInterface::class);
+
+		if ($services instanceof PsrContainerInterface &&
+			$services->has($service)
+		) {
+			return $services->get($service);
+		}
+
+		return null;
 	}
 
 	/**
