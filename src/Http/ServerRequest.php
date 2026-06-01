@@ -3,11 +3,7 @@
 namespace NaN\Http;
 
 use NaN\Http\Streams\InputStream;
-use Psr\Container\{
-	ContainerExceptionInterface,
-	ContainerInterface as PsrContainerInterface,
-	NotFoundExceptionInterface,
-};
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Psr\Http\Message\{
 	ServerRequestInterface as PsrServerRequestInterface,
 	StreamInterface as PsrStreamInterface,
