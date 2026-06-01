@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http;
+namespace NaN\Http\RequestValidators;
 
 use Nette\Schema\{
 	Elements\Structure,
@@ -8,19 +8,19 @@ use Nette\Schema\{
 };
 use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
-readonly class GetRequestValidator implements Interfaces\RequestValidatorInterface {
+readonly class PostRequestValidator implements Interfaces\RequestValidatorInterface {
 	public function __construct(
 		public Structure $schema,
 	) {
 	}
 
 	public function validateRequest(PsrServerRequestInterface $request): mixed {
-		if ($request->getMethod() !== 'GET') {
+		if ($request->getMethod() !== 'POST') {
 			throw new \RuntimeException('Invalid request method!');
 		}
 
 		$processor = new Processor();
 
-		return $processor->process($this->schema, $request->getQueryParams());
+		return $processor->process($this->schema, $request->getParsedBody());
 	}
 }

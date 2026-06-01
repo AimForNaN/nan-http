@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http\Interfaces;
+namespace NaN\Http\RequestValidators\Interfaces;
 
 use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
