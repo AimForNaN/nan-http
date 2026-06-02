@@ -21,7 +21,9 @@ trait MessageTrait {
 
 	public function getHeader(string $name): array {
 		$name = \strtoupper($name);
-		return $this->__headers[$name] ?? [];
+		$value = $this->__headers[$name] ?? [];
+
+		return (array)$value;
 	}
 
 	public function getHeaderLine(string $name): string {

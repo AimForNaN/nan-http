@@ -24,7 +24,7 @@ trait AssertMessageTrait {
 		}
 	}
 
-	private function __assertHeaderValue(array $value): void {
+	private function __assertHeaderValue(array|string $value): void {
 		if (empty($value)) {
 			throw new \InvalidArgumentException('HTTP header value cannot be empty!');
 		}
