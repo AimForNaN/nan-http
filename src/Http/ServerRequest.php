@@ -62,13 +62,14 @@ class ServerRequest extends Request implements PsrServerRequestInterface {
 		return $headers;
 	}
 
-	public function getService(string $service) {
-		return self::getServiceFromRequest($service, $this);
+	public function getService(string $service, string $default = "") {
+		return self::getServiceFromRequest($service, $this, $default);
 	}
 
 	public static function getServiceFromRequest(
 		string $service,
 		PsrServerRequestInterface $request,
+		string $default = "",
 	): mixed {
 		$services = $request->getAttribute(PsrContainerInterface::class);
 
@@ -79,7 +80,7 @@ class ServerRequest extends Request implements PsrServerRequestInterface {
 			return $services->get($service);
 		}
 
-		return null;
+		return !empty($default) ? new $default() : null;
 	}
 
 	public function hasService(string $service): bool {
