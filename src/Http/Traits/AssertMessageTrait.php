@@ -5,11 +5,11 @@ namespace NaN\Http\Traits;
 trait AssertMessageTrait {
 	private function __assertHeaderName(string $name): void {
 		if (empty($name)) {
-			throw new \InvalidArgumentException('HTTP header name cannot be empty!');
+			throw new \ValueError('HTTP header name cannot be empty!');
 		}
 
 		if (\is_numeric($name)) {
-			throw new \InvalidArgumentException('HTTP header name cannot be numeric!');
+			throw new \ValueError('HTTP header name cannot be numeric!');
 		}
 	}
 
@@ -29,7 +29,7 @@ trait AssertMessageTrait {
 
 	private function __assertProtocolVersion(string $protocol_version): void {
 		if (!\is_float((float)$protocol_version)) {
-			throw new \InvalidArgumentException('HTTP protocol version must contain a major and minor version!');
+			throw new \ValueError('HTTP protocol version must contain a major and minor version!');
 		}
 	}
 }
