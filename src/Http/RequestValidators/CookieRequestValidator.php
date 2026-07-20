@@ -2,21 +2,18 @@
 
 namespace NaN\Http\RequestValidators;
 
-use Nette\Schema\{
-	Elements\Structure,
-	Processor,
-};
+use Nette\Schema\Elements\Structure;
 use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
 readonly class CookieRequestValidator implements Interfaces\RequestValidatorInterface {
+	use Traits\RequestValidatorTrait;
+
 	public function __construct(
 		public Structure $schema,
 	) {
 	}
 
 	public function validateRequest(PsrServerRequestInterface $request): mixed {
-		$processor = new Processor();
-
-		return $processor->process($this->schema, $request->getCookieParams());
+		return $this->__validateData($this->schema, $request->getCookieParams());
 	}
 }

@@ -2,13 +2,12 @@
 
 namespace NaN\Http\RequestValidators;
 
-use Nette\Schema\{
-	Elements\Structure,
-	Processor,
-};
+use Nette\Schema\Elements\Structure;
 use Psr\Http\Message\ServerRequestInterface as PsrServerRequestInterface;
 
 readonly class PostRequestValidator implements Interfaces\RequestValidatorInterface {
+	use Traits\RequestValidatorTrait;
+
 	public function __construct(
 		public Structure $schema,
 	) {
@@ -19,8 +18,6 @@ readonly class PostRequestValidator implements Interfaces\RequestValidatorInterf
 			throw new \RuntimeException('Invalid request method!');
 		}
 
-		$processor = new Processor();
-
-		return $processor->process($this->schema, $request->getParsedBody());
+		return $this->__validateData($this->schema, $request->getParsedBody());
 	}
 }
