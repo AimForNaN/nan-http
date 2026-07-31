@@ -44,6 +44,7 @@ trait ServerRequestTrait {
 
 	public function withAttribute(string $name, $value): PsrServerRequestInterface {
 		$new = clone $this;
+
 		$new->__attributes[$name] = $value;
 
 		return $new;
@@ -51,6 +52,7 @@ trait ServerRequestTrait {
 
 	public function withCookieParams(array $cookie_params): PsrServerRequestInterface {
 		$new = clone $this;
+
 		$new->__cookie_params = $cookie_params;
 
 		return $new;
@@ -68,6 +70,7 @@ trait ServerRequestTrait {
 		$this->__assertParsedBody($data);
 
 		$new = clone $this;
+
 		$new->__parsed_body = (array)$data;
 
 		return $new;
@@ -75,6 +78,7 @@ trait ServerRequestTrait {
 
 	public function withQueryParams(array $query): PsrServerRequestInterface {
 		$new = clone $this;
+
 		$new->__query_params = $query;
 
 		return $new;
@@ -84,6 +88,7 @@ trait ServerRequestTrait {
 		$this->__assertUploadedFiles($uploaded_files);
 
 		$new = clone $this;
+
 		$new->__uploaded_files = $uploaded_files;
 
 		return $new;
