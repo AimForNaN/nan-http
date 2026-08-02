@@ -2,17 +2,17 @@
 
 namespace NaN\Http\RequestValidators;
 
-use NaN\Http\ResponseFactory;
-use NaN\Http\ServerRequest;
-use Nette\Schema\Elements\Structure;
-use Psr\Http\Message\{
-	ResponseFactoryInterface as PsrResponseFactoryInterface,
-	ResponseInterface as PsrResponseInterface,
-	ServerRequestInterface as PsrServerRequestInterface,
+use NaN\Http\{
+	ResponseFactory,
+	ServerRequest,
 };
-use Psr\Http\Server\{
-	MiddlewareInterface as PsrMiddlewareInterface,
-	RequestHandlerInterface as PsrRequestHandlerInterface,
+use Nette\Schema\Elements\Structure;
+use Psr\Http\{
+	Message\ResponseFactoryInterface as PsrResponseFactoryInterface,
+	Message\ResponseInterface as PsrResponseInterface,
+	Message\ServerRequestInterface as PsrServerRequestInterface,
+	Server\MiddlewareInterface as PsrMiddlewareInterface,
+	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
 readonly class PostRequestValidator implements PsrMiddlewareInterface {

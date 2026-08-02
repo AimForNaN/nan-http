@@ -15,29 +15,38 @@ use Psr\Http\{
 	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
-readonly class CookieRequestValidator implements PsrMiddlewareInterface {
+readonly class PutRequestValidator implements PsrMiddlewareInterface {
 	use Traits\RequestValidatorTrait;
 
 	public function __construct(
-		private Structure $__schema,
+		private ?Structure $__schema = null,
 	) {
 	}
 
 	public function process(
 		PsrServerRequestInterface $request,
-		PsrRequestHandlerInterface $handler,
+		PsrRequestHandlerInterface $handler
 	): PsrResponseInterface {
 		$response_factory = ServerRequest::getServiceFromRequest(
 			PsrResponseFactoryInterface::class,
 			$request,
 			ResponseFactory::class,
 		);
-		$data = $this->__validateData($this->__schema, $request->getCookieParams());
 
-		if (\is_null($data)) {
-			return $response_factory->createResponse(400);
+		if ($request->getMethod() !== 'PUT') {
+			return $response_factory->createResponse(405);
 		}
 
-		return $handler->handle($request->withCookieParams($data));
+		if (!\is_null($this->__schema)) {
+			$data = $this->__validateData($this->__schema, $request->getParsedBody());
+
+			if (\is_null($data)) {
+				return $response_factory->createResponse(400);
+			}
+
+			return $handler->handle($request->withParsedBody($data));
+		}
+
+		return $handler->handle($request);
 	}
 }
