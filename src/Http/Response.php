@@ -36,29 +36,32 @@ class Response implements PsrResponseInterface {
 		return HttpStatus::getReason($status_code);
 	}
 
-	public static function json(array|object $data): PsrResponseInterface {
-		$rsp = new static(
-			200,
-			headers: [
-				'Content-Type' => 'application/json',
-			],
-		);
+	public static function withJson(
+		PsrResponseInterface $response,
+		array|object $data,
+	): PsrResponseInterface {
+		$body = new TempStream();
 
-		$rsp->getBody()->write(\json_encode($data));
+		$body->write(\json_encode($data));
 
-		return $rsp;
+		return $response
+			->withBody($body)
+			->withHeader('Content-Type', 'application/json')
+		;
 	}
 
-	public static function redirect(string $path, int $status_code = 302): PsrResponseInterface {
+	public static function withRedirect(
+		PsrResponseInterface $response,
+		string $path,
+		int $status_code = 302,
+	): PsrResponseInterface {
 		if (!HttpStatus::isRedirect($status_code)) {
 			throw new \RuntimeException('Invalid redirect response code!');
 		}
 
-		return new static(
-			$status_code,
-			headers: [
-				'Location' => $path,
-			],
-		);
+		return $response
+			->withHeader('Location', $path)
+			->withStatus($status_code)
+		;
 	}
 }
