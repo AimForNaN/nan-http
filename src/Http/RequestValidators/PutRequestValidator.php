@@ -27,6 +27,7 @@ readonly class PutRequestValidator implements PsrMiddlewareInterface {
 		PsrServerRequestInterface $request,
 		PsrRequestHandlerInterface $handler
 	): PsrResponseInterface {
+		/** @var PsrResponseFactoryInterface $response_factory */
 		$response_factory = ServerRequest::getServiceFromRequest(
 			PsrResponseFactoryInterface::class,
 			$request,
@@ -41,7 +42,7 @@ readonly class PutRequestValidator implements PsrMiddlewareInterface {
 			$data = $this->__validateData($this->__schema, $request->getParsedBody());
 
 			if (\is_null($data)) {
-				return $response_factory->createResponse(400);
+				return $response_factory->createResponse(400, 'Bad PUT Request');
 			}
 
 			return $handler->handle($request->withParsedBody($data));

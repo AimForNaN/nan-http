@@ -27,6 +27,7 @@ readonly class GetRequestValidator implements PsrMiddlewareInterface {
 		PsrServerRequestInterface $request,
 		PsrRequestHandlerInterface $handler
 	): PsrResponseInterface {
+		/** @var PsrResponseFactoryInterface $response_factory */
 		$response_factory = ServerRequest::getServiceFromRequest(
 			PsrResponseFactoryInterface::class,
 			$request,
@@ -41,7 +42,7 @@ readonly class GetRequestValidator implements PsrMiddlewareInterface {
 			$data = $this->__validateData($this->__schema, $request->getQueryParams());
 
 			if (\is_null($data)) {
-				return $response_factory->createResponse(400);
+				return $response_factory->createResponse(400, 'Bad GET Request');
 			}
 
 			return $handler->handle($request->withQueryParams($data));

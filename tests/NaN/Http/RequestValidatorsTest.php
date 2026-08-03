@@ -5,10 +5,12 @@ use NaN\Http\{
 	RequestValidators\CookieRequestValidator,
 	RequestValidators\GetRequestValidator,
 	RequestValidators\PostRequestValidator,
-	ServerRequestFactory};
+	RequestValidators\PutRequestValidator,
+	ServerRequestFactory,
+};
 use Nette\Schema\Expect;
 
-describe('RequestValidator', function () {
+describe('RequestValidators', function () {
 	test('CookieRequestValidator', function () {
 		$handler = new NoContentRequestHandler();
 		$validator = new CookieRequestValidator(Expect::array([
@@ -57,6 +59,25 @@ describe('RequestValidator', function () {
 			'foo' => Expect::string()->required(),
 		]));
 		$request = new ServerRequestFactory()->createServerRequest('POST', '/');
+		$response = $validator->process($request->withParsedBody([
+			'foo' => 'bar',
+		]), $handler);
+
+		expect($response->getStatusCode())->toBe(204);
+	});
+
+	test('PutRequestValidator', function () {
+		$handler = new NoContentRequestHandler();
+		$validator = new PutRequestValidator();
+		$request = new ServerRequestFactory()->createServerRequest('GET', '/');
+		$response = $validator->process($request, $handler);
+
+		expect($response->getStatusCode())->toBe(405);
+
+		$validator = new PutRequestValidator(Expect::array([
+			'foo' => Expect::string()->required(),
+		]));
+		$request = new ServerRequestFactory()->createServerRequest('PUT', '/');
 		$response = $validator->process($request->withParsedBody([
 			'foo' => 'bar',
 		]), $handler);
