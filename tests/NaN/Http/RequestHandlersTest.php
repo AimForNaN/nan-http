@@ -4,7 +4,7 @@ use NaN\Http\{
 	ResponseFactory,
 	ServerRequestFactory,
 };
-use NaN\Http\RequestHandlers\{
+use NaN\Http\Request\Handlers\{
 	ClosureRequestHandler,
 	NotFoundRequestHandler,
 };

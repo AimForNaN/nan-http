@@ -1,12 +1,11 @@
 <?php
 
-namespace NaN\Http\RequestValidators;
+namespace NaN\Http\Request\Validators;
 
 use NaN\Http\{
 	ResponseFactory,
 	ServerRequest,
 };
-use Nette\Schema\Elements\Structure;
 use Psr\Http\{
 	Message\ResponseFactoryInterface as PsrResponseFactoryInterface,
 	Message\ResponseInterface as PsrResponseInterface,
@@ -15,29 +14,27 @@ use Psr\Http\{
 	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
-readonly class CookieRequestValidator implements PsrMiddlewareInterface {
-	use Traits\RequestValidatorTrait;
-
+class MethodRequestValidator implements PsrMiddlewareInterface {
 	public function __construct(
-		private Structure $__schema,
+		private array $__methods = [],
 	) {
 	}
 
-	public function process(
+    public function process(
 		PsrServerRequestInterface $request,
 		PsrRequestHandlerInterface $handler,
 	): PsrResponseInterface {
+		/** @var PsrResponseFactoryInterface $response_factory */
 		$response_factory = ServerRequest::getServiceFromRequest(
 			PsrResponseFactoryInterface::class,
 			$request,
 			ResponseFactory::class,
 		);
-		$data = $this->__validateData($this->__schema, $request->getCookieParams());
 
-		if (\is_null($data)) {
-			return $response_factory->createResponse(400);
+		if (!\in_array($request->getMethod(), $this->__methods)) {
+			return $response_factory->createResponse(405);
 		}
 
-		return $handler->handle($request->withCookieParams($data));
-	}
+        return $handler->handle($request);
+    }
 }

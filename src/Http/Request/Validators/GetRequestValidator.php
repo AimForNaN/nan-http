@@ -1,11 +1,12 @@
 <?php
 
-namespace NaN\Http\RequestValidators;
+namespace NaN\Http\Request\Validators;
 
 use NaN\Http\{
 	ResponseFactory,
 	ServerRequest,
 };
+use Nette\Schema\Elements\Structure;
 use Psr\Http\{
 	Message\ResponseFactoryInterface as PsrResponseFactoryInterface,
 	Message\ResponseInterface as PsrResponseInterface,
@@ -14,15 +15,17 @@ use Psr\Http\{
 	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
-class MethodRequestValidator implements PsrMiddlewareInterface {
+readonly class GetRequestValidator implements PsrMiddlewareInterface {
+	use Traits\RequestValidatorTrait;
+
 	public function __construct(
-		private array $__methods = [],
+		private ?Structure $__schema = null,
 	) {
 	}
 
-    public function process(
+	public function process(
 		PsrServerRequestInterface $request,
-		PsrRequestHandlerInterface $handler,
+		PsrRequestHandlerInterface $handler
 	): PsrResponseInterface {
 		/** @var PsrResponseFactoryInterface $response_factory */
 		$response_factory = ServerRequest::getServiceFromRequest(
@@ -31,10 +34,20 @@ class MethodRequestValidator implements PsrMiddlewareInterface {
 			ResponseFactory::class,
 		);
 
-		if (!\in_array($request->getMethod(), $this->__methods)) {
+		if ($request->getMethod() !== 'GET') {
 			return $response_factory->createResponse(405);
 		}
 
-        return $handler->handle($request);
-    }
+		if (!\is_null($this->__schema)) {
+			$data = $this->__validateData($this->__schema, $request->getQueryParams());
+
+			if (\is_null($data)) {
+				return $response_factory->createResponse(400, 'Bad GET Request');
+			}
+
+			return $handler->handle($request->withQueryParams($data));
+		}
+
+		return $handler->handle($request);
+	}
 }

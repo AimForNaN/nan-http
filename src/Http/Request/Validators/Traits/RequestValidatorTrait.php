@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http\RequestValidators\Traits;
+namespace NaN\Http\Request\Validators\Traits;
 
 use Nette\Schema\{
 	Elements\Structure,

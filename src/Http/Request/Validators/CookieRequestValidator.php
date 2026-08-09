@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http\RequestValidators;
+namespace NaN\Http\Request\Validators;
 
 use NaN\Http\{
 	ResponseFactory,
@@ -15,39 +15,29 @@ use Psr\Http\{
 	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
-readonly class PostRequestValidator implements PsrMiddlewareInterface {
+readonly class CookieRequestValidator implements PsrMiddlewareInterface {
 	use Traits\RequestValidatorTrait;
 
 	public function __construct(
-		private ?Structure $__schema = null,
+		private Structure $__schema,
 	) {
 	}
 
 	public function process(
 		PsrServerRequestInterface $request,
-		PsrRequestHandlerInterface $handler
+		PsrRequestHandlerInterface $handler,
 	): PsrResponseInterface {
-		/** @var PsrResponseFactoryInterface $response_factory */
 		$response_factory = ServerRequest::getServiceFromRequest(
 			PsrResponseFactoryInterface::class,
 			$request,
 			ResponseFactory::class,
 		);
+		$data = $this->__validateData($this->__schema, $request->getCookieParams());
 
-		if ($request->getMethod() !== 'POST') {
-			return $response_factory->createResponse(405);
+		if (\is_null($data)) {
+			return $response_factory->createResponse(400);
 		}
 
-		if (!\is_null($this->__schema)) {
-			$data = $this->__validateData($this->__schema, $request->getParsedBody());
-
-			if (\is_null($data)) {
-				return $response_factory->createResponse(400, 'Bad POST Request');
-			}
-
-			return $handler->handle($request->withParsedBody($data));
-		}
-
-		return $handler->handle($request);
+		return $handler->handle($request->withCookieParams($data));
 	}
 }

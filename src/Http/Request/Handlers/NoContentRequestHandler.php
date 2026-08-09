@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http\RequestHandlers;
+namespace NaN\Http\Request\Handlers;
 
 use NaN\Http\{
 	ResponseFactory,

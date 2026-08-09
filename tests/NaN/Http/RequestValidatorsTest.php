@@ -1,13 +1,13 @@
 <?php
 
-use NaN\Http\{
-	RequestHandlers\NoContentRequestHandler,
-	RequestValidators\CookieRequestValidator,
-	RequestValidators\GetRequestValidator,
-	RequestValidators\PostRequestValidator,
-	RequestValidators\PutRequestValidator,
-	ServerRequestFactory,
+use NaN\Http\Request\{
+	Handlers\NoContentRequestHandler,
+	Validators\CookieRequestValidator,
+	Validators\GetRequestValidator,
+	Validators\PostRequestValidator,
+	Validators\PutRequestValidator,
 };
+use NaN\Http\ServerRequestFactory;
 use Nette\Schema\Expect;
 
 describe('RequestValidators', function () {

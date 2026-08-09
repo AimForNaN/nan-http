@@ -1,6 +1,6 @@
 <?php
 
-namespace NaN\Http\RequestValidators;
+namespace NaN\Http\Request\Validators;
 
 use NaN\Http\{
 	ResponseFactory,
@@ -15,7 +15,7 @@ use Psr\Http\{
 	Server\RequestHandlerInterface as PsrRequestHandlerInterface,
 };
 
-readonly class GetRequestValidator implements PsrMiddlewareInterface {
+readonly class PutRequestValidator implements PsrMiddlewareInterface {
 	use Traits\RequestValidatorTrait;
 
 	public function __construct(
@@ -34,18 +34,18 @@ readonly class GetRequestValidator implements PsrMiddlewareInterface {
 			ResponseFactory::class,
 		);
 
-		if ($request->getMethod() !== 'GET') {
+		if ($request->getMethod() !== 'PUT') {
 			return $response_factory->createResponse(405);
 		}
 
 		if (!\is_null($this->__schema)) {
-			$data = $this->__validateData($this->__schema, $request->getQueryParams());
+			$data = $this->__validateData($this->__schema, $request->getParsedBody());
 
 			if (\is_null($data)) {
-				return $response_factory->createResponse(400, 'Bad GET Request');
+				return $response_factory->createResponse(400, 'Bad PUT Request');
 			}
 
-			return $handler->handle($request->withQueryParams($data));
+			return $handler->handle($request->withParsedBody($data));
 		}
 
 		return $handler->handle($request);
