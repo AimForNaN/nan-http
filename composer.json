@@ -9,6 +9,7 @@
 	},
 	"require": {
 		"php": "^8.4",
+		"aimfornan/nan-di": "^0.5",
 		"amphp/http": "^2.1",
 		"laminas/laminas-diactoros": "^3.8",
 		"nette/schema": "^1.3",
