@@ -2,6 +2,7 @@
 
 namespace NaN\Http;
 
+use NaN\Http\Streams\TempStream;
 use Psr\Http\Message\{
 	RequestInterface as PsrRequestInterface,
 	StreamInterface as PsrStreamInterface,
@@ -15,7 +16,7 @@ class Request implements PsrRequestInterface {
 	public function __construct(
 		string $method,
 		PsrUriInterface $uri,
-		PsrStreamInterface $body,
+		PsrStreamInterface $body = new TempStream(),
 		array $headers = [],
 	) {
 		$headers = Message::prepareHeaders($headers);
