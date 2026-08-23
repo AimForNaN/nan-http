@@ -33,5 +33,9 @@ describe('Streams', function () {
 		$stream->write('test');
 
 		expect((string)$stream)->toBe('test');
+
+		$stream->write('test');
+
+		expect((string)$stream)->toBe('testtest');
 	});
 });

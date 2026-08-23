@@ -21,8 +21,15 @@ trait StreamTrait {
 		}
 
 		try {
+			$pos = $this->tell();
+
 			$this->rewind();
-			return $this->getContents();
+
+			$content = $this->getContents();
+
+			$this->seek($pos);
+
+			return $content;
 		} catch (\Throwable $e) {
 			return '';
 		}
